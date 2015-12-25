@@ -1,0 +1,9 @@
+u = load 'hdfs:/pig/practice/u.data' as(user:chararray, movies:chararray, ratings:long, timestemp:chararray)
+
+grprat = group u by ratings;
+
+cntd = foreach grprat generate group as ratings, COUNT(u) as counts;
+
+result = foreach cntd generate ratings, counts;
+
+store result into '/pig/practice/processed/ratings/';
